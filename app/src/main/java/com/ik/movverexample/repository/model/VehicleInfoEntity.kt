@@ -5,8 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
 import com.ik.movverexample.di.VEHICLE_INFO_DB_NAME
-import com.ik.movverexample.utils.TimeUtils
-
 
 @Entity(tableName = VEHICLE_INFO_DB_NAME)
 data class VehicleInfoEntity(
@@ -23,6 +21,3 @@ data class VehicleInfoEntity(
 fun VehicleInfoEntity?.latLng(defaultLatLng: LatLng = LatLng(0.0, 0.0)): LatLng {
     return this?.let { LatLng(latitude, longitude) } ?: defaultLatLng
 }
-
-val VehicleInfoEntity.lastUpdatedHumanReadable: String
-    get() = TimeUtils.getRelativeTime(this.lastUpdated)

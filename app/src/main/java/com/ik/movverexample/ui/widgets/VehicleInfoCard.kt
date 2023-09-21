@@ -23,11 +23,17 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.ik.movverexample.repository.model.VehicleInfoEntity
-import com.ik.movverexample.repository.model.lastUpdatedHumanReadable
+import com.ik.movverexample.utils.TimeUtils
+import com.ik.movverexample.utils.TimeUtilsImpl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VehicleInfoCard(vehicleInfoEntity: VehicleInfoEntity, cardType: CardType, onClick: () -> Unit = {}) {
+fun VehicleInfoCard(
+    vehicleInfoEntity: VehicleInfoEntity,
+    cardType: CardType,
+    timeUtils: TimeUtils = TimeUtilsImpl(),
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(8.dp).testTag(vehicleInfoEntity.plateNo),
         onClick = onClick
@@ -61,7 +67,7 @@ fun VehicleInfoCard(vehicleInfoEntity: VehicleInfoEntity, cardType: CardType, on
                 InfoCardText(text = "Plate No: ${vehicleInfoEntity.plateNo}")
                 InfoCardText(text = "Driver Name: ${vehicleInfoEntity.driverName}")
                 InfoCardText(text = "Location: ${vehicleInfoEntity.location.cardTypeCompatible(cardType)}")
-                InfoCardText(text = "Last Update: ${vehicleInfoEntity.lastUpdatedHumanReadable}")
+                InfoCardText(text = "Last Update: ${timeUtils.getRelativeTime(vehicleInfoEntity.lastUpdated)}")
             }
         }
     }

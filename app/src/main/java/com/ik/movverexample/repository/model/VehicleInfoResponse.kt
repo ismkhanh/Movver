@@ -1,7 +1,5 @@
 package com.ik.movverexample.repository.model
 
-import com.google.android.gms.maps.model.LatLng
-import com.ik.movverexample.utils.TimeUtils
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -15,9 +13,6 @@ data class VehicleInfoResponse(
     @Json(name = "imageURL") val imageURL: String,
     @Json(name = "lastUpdated") val lastUpdated: String
 )
-
-val VehicleInfoResponse.lastUpdatedHumanReadable: String
-    get() = TimeUtils.getRelativeTime(this.lastUpdated)
 
 
 

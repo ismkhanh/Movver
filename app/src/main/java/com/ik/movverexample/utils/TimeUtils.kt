@@ -1,13 +1,24 @@
 package com.ik.movverexample.utils
 
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-object TimeUtils {
+interface TimeUtils {
+    fun getRelativeTime(timeString: String, currentTime: Date = Date()): String
+}
 
-    fun getRelativeTime(timeString: String, currentTime: Date = Date()): String {
+class TimeUtilsImpl : TimeUtils {
+
+    override fun getRelativeTime(timeString: String, currentTime: Date): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US)
-        val date = sdf.parse(timeString) ?: return "Unknown time"
+        val date: Date
+        try {
+            date = sdf.parse(timeString) ?: return "Unknown time"
+        } catch (e: ParseException) {
+            return "Unknown time"
+        }
 
         val diff = currentTime.time - date.time
 
@@ -17,7 +28,7 @@ object TimeUtils {
         val day = 24 * hour
 
         return when {
-            diff < minute -> "Now"  // Show "Now" for less than a minute
+            diff < minute -> "Now"
             diff < hour -> "${diff / minute} minutes ago"
             diff < day -> "${diff / hour} hours ago"
             else -> "${diff / day} days ago"
